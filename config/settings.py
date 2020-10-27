@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd Party
+    'rest_framework',
 
 
     # Local
@@ -158,3 +159,13 @@ STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'frontend/static/build/static'), )
 # Substituting a custom User model
 # https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#substituting-a-custom-user-model
 AUTH_USER_MODEL = 'accounts.User'
+
+# Static File Config
+# https://docs.djangoproject.com/en/3.1/ref/settings/#default-file-storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCES_KEY_ID =  os.environ['AWS_ACCES_KEY_ID']
+AWS_SECRET_ACCESS_KEY =  os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
