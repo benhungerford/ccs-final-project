@@ -17,6 +17,7 @@ boto3 = "~=1.16.5"
 pillow = "~=8.0.1"
 django-rest-auth = "~=0.9.5"
 django-allauth = "~=0.43.0"
+twilio = "*"
 
 [requires]
 python_version = "3.8"
