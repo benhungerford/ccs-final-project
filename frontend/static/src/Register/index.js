@@ -39,7 +39,7 @@ class Register extends Component {
           <label htmlFor="InputPassword2">Re-type password</label>
           <input type="password" className="form-control" id="InputPassword2" name="password2" value={this.state.password2} onChange={this.handleInput} />
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
+        <button type="submit" className="button">Register</button>
       </form>
     )
   }

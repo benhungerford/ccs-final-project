@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './styles.css';
 
 function Nav(props) {
   return (
@@ -8,9 +7,11 @@ function Nav(props) {
           <Link to="/" className="nav-link">Home</Link>
           {props.isLoggedIn === false ?
             <Link to="/login" className="nav-link">Login</Link>
-          : <Link to="/" className="nav-link" onClick={props.handleLogout}>Logout</Link>
+          : <React.Fragment>
+              <Link to="/" className="nav-link" onClick={props.handleLogout}>Logout</Link>
+              <Link to="/profile" className="nav-link">Profile</Link>
+            </React.Fragment>
           }
-          <Link to="/register" className='nav-link' onClick={props.handleRegistration}>Register</Link>
 
 
     </nav>

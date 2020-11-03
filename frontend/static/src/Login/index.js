@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +30,7 @@ class Login extends Component {
           <label htmlFor="InputPassword">Password</label>
           <input type="password" className="form-control" id="InputPassword" name="password" value={this.state.password} onChange={this.handleInput} />
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="button">Login</button>
       </form>
     )
   }

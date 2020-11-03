@@ -18,6 +18,8 @@ pillow = "~=8.0.1"
 django-rest-auth = "~=0.9.5"
 django-allauth = "~=0.43.0"
 twilio = "*"
+django-phone-field = "*"
+django-localflavor = "~=3.0.1"
 
 [requires]
 python_version = "3.8"

@@ -1,13 +1,14 @@
 import './App.css';
 import Cookies from 'js-cookie';
 import React, { Component } from "react";
+import Home from './../Home';
 import Nav from './../Nav';
 import Register from './../Register';
 import Login from './../Login';
+import Profile from './../Profile';
 import {
   Switch,
   Route,
-  Link,
   withRouter
 } from "react-router-dom";
 
@@ -42,6 +43,8 @@ class App extends Component {
       localStorage.setItem('is_staff', data.is_staff)
       this.props.history.push('/');
     }
+
+    
   }
 
   async handleLogin(event, obj) {
@@ -90,6 +93,9 @@ class App extends Component {
       <React.Fragment>
           <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Switch>
+            <Route path='/profile'>
+              <Profile />
+            </Route>
             <Route path="/register">
               <Register handleRegistration={this.handleRegistration} />
             </Route>
@@ -107,9 +113,3 @@ class App extends Component {
 
 
 export default withRouter(App);
-
-
-
-function Home() {
-  return <h2>Home</h2>;
-}

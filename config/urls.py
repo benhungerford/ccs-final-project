@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/v1/', include('api.urls')),
     # allows you to login/out of the browsable api
     path('api-auth/', include('rest_framework.urls')),
+    path('', include('accounts.urls')),
 ]
