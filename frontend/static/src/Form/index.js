@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
 
-
-class EditProfile extends Component {
+class Form extends Component {
   constructor(props) {
     super(props);
 
@@ -16,9 +15,20 @@ class EditProfile extends Component {
       state: '',
       zipcode: '',
       phone: '',
+
+      contacts: [],
+      date: '',
+      time: '',
+      items: [],
+      details: '',
+
+      item: '',
+      quantity: 0,
+
     }
+
     this.handleInput = this.handleInput.bind(this);
-    this.handleImage = this.handleImage.bind(this);
+    this.updateItems = this.updateItems.bind(this);
   }
 
   componentDidMount() {
@@ -31,18 +41,59 @@ class EditProfile extends Component {
   handleInput(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-  handleImage(e){
-    let file = e.target.files[0];
-    this.setState({
-      image: file,
-    });
+
+
+  // updateItems(event) {
+  //   event.preventDefault();
+  //   const items = [...this.state.items]
+  //
+  //   for(let i = 0; i < this.state.quantity; i++) {
+  //     items.push(this.state.item);
+  //   }
+  //   this.setState({items, item: '', quantity: 0});
+  // }
+
+  updateItems(event) {
+    event.preventDefault();
+    const item = {
+      [this.state.item]: Number(this.state.quantity),
+    }
+    const items = [...this.state.items, item];
+    this.setState({items, item: '', quantity: 0});
   }
 
   render() {
     return(
       <React.Fragment>
-        <form onSubmit={(event) => this.props.editProfile(event, this.state)}>
-          <h4>Edit Your Profile</h4>
+        <form action="">
+          <h3>Details</h3>
+          <p>Choose a time and day:</p>
+            <label htmlFor="time">Time:</label>
+            <input type="time" id="time" name="time" value={this.state.time} onChange={this.handleInput} />
+            <label htmlFor="date">Day: </label>
+            <input type="date" id="date" name="date" value={this.state.date} onChange={this.handleInput} />
+            <div className="form-group">
+              <label htmlFor="details">Now, write a short message asking your guests to sign up for what they want to bring:</label>
+              <textarea className="form-control" id="details" rows="3" name="details" value={this.state.details} onChange={this.handleInput}></textarea>
+            </div>
+
+          <h3>Items Needed</h3>
+            <React.Fragment>
+              <ul>
+                <li>{this.state.items}</li>
+              </ul>
+            </React.Fragment>
+            <div>
+              <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+              <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
+            </div>
+            <button onClick={this.updateItems}>Add Item</button>
+
+
+
+          <h3>Contact Info</h3>
+          <p>Let your guests know where the party is and how to contact you.</p>
+
           <div className="form-group">
             <label htmlFor="firstname">First Name</label>
             <input type="text" className="form-control" id="firstname" name="first" value={this.state.first} onChange={this.handleInput} />
@@ -54,8 +105,8 @@ class EditProfile extends Component {
             <input type="email" className="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email" value={this.state.email} onChange={this.handleInput} />
           </div>
           <div className="form-group">
-            <label htmlFor="img">Upload Profile Picture</label>
-            <input type="file" id="img" name="image" accept="image/*" onChange={this.handleImage}/>
+            <label htmlFor="phone">Phone Number</label>
+            <input type="text" className="form-control" id="phone" name="phone" value={this.state.phone} onChange={this.handleInput} />
           </div>
           <div className="form-group">
             <label htmlFor="address">Address</label>
@@ -126,15 +177,12 @@ class EditProfile extends Component {
             <label htmlFor="zipcode">Zipcode</label>
             <input type="text" className="form-control" id="zipcode" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
           </div>
-          <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input type="text" className="form-control" id="phone" name="phone" value={this.state.phone} onChange={this.handleInput} />
-          </div>
-          <button type="submit" className="button">Submit</button>
+
         </form>
+
       </React.Fragment>
-    );
+    )
   }
 }
 
-export default EditProfile;
+export default Form;

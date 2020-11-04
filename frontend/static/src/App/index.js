@@ -7,6 +7,7 @@ import Register from './../Register';
 import Login from './../Login';
 import Profile from './../Profile';
 import EditProfile from './../Profile/EditProfile';
+import Form from './../Form';
 
 import {
   Switch,
@@ -26,12 +27,13 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.createProfile = this.createProfile.bind(this);
+    this.editProfile = this.editProfile.bind(this);
   }
 
   async handleRegistration(event, obj) {
     event.preventDefault();
     const user = {username: obj.username, email: obj.email, password1: obj.password1, password2: obj.password2}
-    const profile = {first: obj.first, last: obj.last, image: obj.image, address: obj.address, city: obj.city, state: obj.state, zipcode: obj.zipcode, phone: obj.phone}
+    const profile = {first: obj.first, last: obj.last, email: obj.email, image: obj.image, address: obj.address, city: obj.city, state: obj.state, zipcode: obj.zipcode, phone: obj.phone}
     const options = {
       method: 'POST',
       headers: {
@@ -39,7 +41,6 @@ class App extends Component {
         'X-CSRFToken': Cookies.get('csrftoken'),
       },
       body: JSON.stringify(user),
-      // body: JSON.stringify({username: obj.username, email: obj.email, password1: obj.password1, password2: obj.password2}),
     };
     const handleError = (err) => console.warn(err);
     const response = await fetch('/api/v1/rest-auth/registration/', options);
@@ -76,30 +77,27 @@ class App extends Component {
     // }
   }
 
-    // async handleRegistration(e, form){
-    //      e.preventDefault();
-    //      const user = {username: form.username, email: form.email, password1: form.password1, password2: form.password2}
-    //      const profile = {first: form.first, last: form.last, image: form.image, address: form.address, city: form.city, state: form.state, zipcode: obj.zipcode, phone: obj.phone}
-    //      let formData = new FormData();
-    //      const keys = Object.keys(form);
-    //      keys.forEach(key => formData.append(key, form[key]));
-    //      console.log(formData);
-    //      const options = {
-    //        method: 'POST',
-    //        headers: {
-    //          'X-CSRFToken': Cookies.get('csrftoken'),
-    //        },
-    //        body: formData
-    //      };
-    //      const handleError = (err) => console.warn(err);
-    //      const response = await fetch('/api/v1/recipes/', options);
-    //      const data = await response.json().catch(handleError);
-    //      console.log(data);
-    //      if(data.key){
-    //        Cookies.set('Authorization', `Token ${data.key}`)
-    //      }
-    //    }
-
+  async editProfile(event, obj) {
+    event.preventDefault();
+    if(typeof obj.image === "string") {
+      delete obj.image
+    };
+    const formData = new FormData();
+    const keys = Object.keys(obj);
+    keys.forEach(key => formData.append(key, obj[key]));
+    const options = {
+      method: 'PUT',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+      body: formData,
+    };
+    const handleError = (err) => console.warn(err);
+    const response = await fetch('/api/v1/profiles/detail/', options);
+    const data = await response.json().catch(handleError);
+    console.log('data', data);
+    this.props.history.push('/profile');
+  }
 
   async handleLogin(event, obj) {
     console.log('firing');
@@ -138,17 +136,20 @@ class App extends Component {
     if(data.detail === "Successfully logged out."){
       Cookies.remove('Authorization');
       this.setState({isLoggedIn: false});
-      localStorage.removeItem('is_staff', data.is_staff)
     }
   }
+
 
   render() {
     return (
       <React.Fragment>
           <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Switch>
+            <Route path='/form'>
+              <Form />
+            </Route>
             <Route path='/editprofile'>
-              <EditProfile profile={this.props.profile}/>
+              <EditProfile editProfile={this.editProfile}/>
             </Route>
             <Route path='/profile'>
               <Profile />

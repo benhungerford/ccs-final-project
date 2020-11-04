@@ -20,6 +20,7 @@ django-allauth = "~=0.43.0"
 twilio = "*"
 django-phone-field = "*"
 django-localflavor = "~=3.0.1"
+django-postgres-extensions = "~=0.9.3"
 
 [requires]
 python_version = "3.8"

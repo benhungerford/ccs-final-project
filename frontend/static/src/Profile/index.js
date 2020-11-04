@@ -39,6 +39,7 @@ class Profile extends Component {
             <p>{this.state.profile.phone}</p>
           </div>
           <Link to='/editprofile'>Edit Profile</Link>
+          <Link to="/form" className='nav-link'>Create Form</Link>
         </div>
       </React.Fragment>
     );

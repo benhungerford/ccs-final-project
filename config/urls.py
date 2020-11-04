@@ -19,10 +19,13 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # home url
-    path('', include('frontend.urls', namespace='frontend')),
+
     path('api/v1/', include('api.urls')),
     path('api/v1/', include('accounts.urls')),
     # allows you to login/out of the browsable api
     path('api-auth/', include('rest_framework.urls')),
+
+
+    path('', include('frontend.urls', namespace='frontend')),
 
 ]

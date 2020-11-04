@@ -7,6 +7,7 @@ function Home(props) {
     <React.Fragment>
       <h2>Home Page</h2>
       <Link to="/register" className='nav-link'>Register</Link>
+      <Link to="/form" className='nav-link'>Create Form</Link>
     </React.Fragment>
   )
 
