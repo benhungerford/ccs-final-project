@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 
 
 class Profile extends Component {
@@ -12,7 +12,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    fetch(`profiles/detail/`)
+    fetch(`/api/v1/profiles/detail/`)
       .then(response => response.json())
       .then(data => this.setState({ profile: data }))
       .catch(error => console.log('Error:', error));
@@ -38,11 +38,8 @@ class Profile extends Component {
             <h3>Phone Number</h3>
             <p>{this.state.profile.phone}</p>
           </div>
-          <button></button>
+          <Link to='/editprofile'>Edit Profile</Link>
         </div>
-
-
-
       </React.Fragment>
     );
   }

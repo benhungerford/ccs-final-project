@@ -6,6 +6,8 @@ import Nav from './../Nav';
 import Register from './../Register';
 import Login from './../Login';
 import Profile from './../Profile';
+import EditProfile from './../Profile/EditProfile';
+
 import {
   Switch,
   Route,
@@ -18,34 +20,86 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isLoggedIn: false,
+      isLoggedIn: !!Cookies.get('Authorization'),
     }
     this.handleRegistration = this.handleRegistration.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.createProfile = this.createProfile.bind(this);
   }
 
   async handleRegistration(event, obj) {
     event.preventDefault();
+    const user = {username: obj.username, email: obj.email, password1: obj.password1, password2: obj.password2}
+    const profile = {first: obj.first, last: obj.last, image: obj.image, address: obj.address, city: obj.city, state: obj.state, zipcode: obj.zipcode, phone: obj.phone}
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': Cookies.get('csrftoken'),
       },
-      body: JSON.stringify(obj),
+      body: JSON.stringify(user),
+      // body: JSON.stringify({username: obj.username, email: obj.email, password1: obj.password1, password2: obj.password2}),
     };
     const handleError = (err) => console.warn(err);
     const response = await fetch('/api/v1/rest-auth/registration/', options);
     const data = await response.json().catch(handleError);
     if(data.key) {
       Cookies.set('Authorization', `Token ${data.key}`);
-      localStorage.setItem('is_staff', data.is_staff)
-      this.props.history.push('/');
+      // localStorage.setItem('is_staff', data.is_staff)
+      this.createProfile(profile);
     }
-
-    
   }
+
+  async createProfile(obj) {
+    // event.preventDefault();
+
+    const formData = new FormData();
+    const keys = Object.keys(obj);
+    keys.forEach(key => formData.append(key, obj[key]));
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+      body: formData,
+    };
+    const handleError = (err) => console.warn(err);
+    const response = await fetch('/api/v1/profiles/', options);
+    const data = await response.json().catch(handleError);
+    console.log('data', data);
+    // if(data.key) {
+      // Cookies.set('Authorization', `Token ${data.key}`);
+    this.setState({ isLoggedIn: true });
+    this.props.history.push('/profile');
+    // }
+  }
+
+    // async handleRegistration(e, form){
+    //      e.preventDefault();
+    //      const user = {username: form.username, email: form.email, password1: form.password1, password2: form.password2}
+    //      const profile = {first: form.first, last: form.last, image: form.image, address: form.address, city: form.city, state: form.state, zipcode: obj.zipcode, phone: obj.phone}
+    //      let formData = new FormData();
+    //      const keys = Object.keys(form);
+    //      keys.forEach(key => formData.append(key, form[key]));
+    //      console.log(formData);
+    //      const options = {
+    //        method: 'POST',
+    //        headers: {
+    //          'X-CSRFToken': Cookies.get('csrftoken'),
+    //        },
+    //        body: formData
+    //      };
+    //      const handleError = (err) => console.warn(err);
+    //      const response = await fetch('/api/v1/recipes/', options);
+    //      const data = await response.json().catch(handleError);
+    //      console.log(data);
+    //      if(data.key){
+    //        Cookies.set('Authorization', `Token ${data.key}`)
+    //      }
+    //    }
+
 
   async handleLogin(event, obj) {
     console.log('firing');
@@ -66,7 +120,7 @@ class App extends Component {
     if(data.key) {
       Cookies.set('Authorization', `Token ${data.key}`);
       this.setState({isLoggedIn: true});
-      this.props.history.push('/');
+      this.props.history.push('/profile');
     }
 }
 
@@ -93,6 +147,9 @@ class App extends Component {
       <React.Fragment>
           <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Switch>
+            <Route path='/editprofile'>
+              <EditProfile profile={this.props.profile}/>
+            </Route>
             <Route path='/profile'>
               <Profile />
             </Route>

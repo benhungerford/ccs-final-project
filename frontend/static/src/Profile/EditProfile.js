@@ -9,7 +9,7 @@ class EditProfile extends Component {
     this.state = {
       first: '',
       last: '',
-      image: '',
+      image: null,
       address: '',
       city: '',
       state: '',
