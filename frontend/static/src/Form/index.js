@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Cookies from 'js-cookie';
 
 
 function FormItem(props) {
@@ -38,6 +39,7 @@ class Form extends Component {
 
     this.handleInput = this.handleInput.bind(this);
     this.updateItems = this.updateItems.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   componentDidMount() {
@@ -47,20 +49,30 @@ class Form extends Component {
       .catch(error => console.log('Error:', error));
   }
 
+  async submitForm(event, obj) {
+    event.preventDefault();
+    delete obj.image
+    const formData = new FormData();
+    const keys = Object.keys(obj);
+    keys.forEach(key => formData.append(key, obj[key]));
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+      body: formData,
+    };
+    const handleError = (err) => console.warn(err);
+    const response = await fetch('/api/v1/forms/', options);
+    const data = await response.json().catch(handleError);
+    console.log('data', data);
+    // this.props.history.push('/profile');
+  }
+
   handleInput(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
-
-  // updateItems(event) {
-  //   event.preventDefault();
-  //   const items = [...this.state.items]
-  //
-  //   for(let i = 0; i < this.state.quantity; i++) {
-  //     items.push(this.state.item);
-  //   }
-  //   this.setState({items, item: '', quantity: 0});
-  // }
 
   updateItems(event) {
     event.preventDefault();
@@ -72,11 +84,12 @@ class Form extends Component {
   }
 
   render() {
+    console.log(this.state)
     const items = this.state.items.map(item => <FormItem key={this.state.items.indexOf(item)} item={item}/>)
 
     return(
       <React.Fragment>
-        <form action="">
+        <form onSubmit={(event) => this.submitForm(event, this.state)}>
           <h3>Details</h3>
           <p>Choose a time and day:</p>
             <label htmlFor="time">Time:</label>
@@ -188,7 +201,7 @@ class Form extends Component {
             <label htmlFor="zipcode">Zipcode</label>
             <input type="text" className="form-control" id="zipcode" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
           </div>
-
+          <button type="submit" className="button">Submit</button>
         </form>
 
       </React.Fragment>
