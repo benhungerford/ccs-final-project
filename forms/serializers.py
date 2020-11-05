@@ -13,4 +13,5 @@ class FormSerializer(serializers.ModelSerializer):
     class Meta:
         # depth = 1
         model = Form
-        fields = ('id', 'user', 'first', 'last', 'image', 'address', 'city', 'state', 'zipcode', 'phone', 'email', 'contacts', 'date', 'time', 'items',)
+        # fields = ('id', 'user', 'first', 'last', 'image', 'address', 'city', 'state', 'zipcode', 'phone', 'email', 'contacts', 'date', 'time', 'items',)
+        fields = '__all__'

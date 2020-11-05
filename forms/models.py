@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from phone_field import PhoneField
 from localflavor.us.models import USZipCodeField, USStateField
-# from django_postgres_extensions.models.fields import ArrayField
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -25,13 +24,15 @@ class Form(models.Model):
     )
     zipcode = USZipCodeField()
     phone = PhoneField(blank=True, help_text='Contact phone number', E164_only=False)
-    email = models.EmailField(max_length=254, blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
 
-    contacts = ArrayField(models.TextField(max_length=None, blank=True), blank = True, null = True,)
+    contacts = ArrayField(models.TextField(blank=True), blank = True, null = True,)
     date =  models.DateField(auto_now=False, auto_now_add=False)
     time = models.TimeField(auto_now=False, auto_now_add=False)
-    items = ArrayField(models.TextField(max_length=None, blank=True), blank = True, null = True,)
+    items = ArrayField(models.TextField(blank=True), blank = True, null = True,)
+    details = models.TextField(blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def __str__(self):
-        return self.user
+        return self.user.username

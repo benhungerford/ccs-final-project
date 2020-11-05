@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 
 
+function FormItem(props) {
+  return(
+    <li>
+      {Object.keys(props.item)}: {Object.values(props.item)}
+    </li>
+  )
+}
+
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -63,6 +72,8 @@ class Form extends Component {
   }
 
   render() {
+    const items = this.state.items.map(item => <FormItem key={this.state.items.indexOf(item)} item={item}/>)
+
     return(
       <React.Fragment>
         <form action="">
@@ -80,7 +91,7 @@ class Form extends Component {
           <h3>Items Needed</h3>
             <React.Fragment>
               <ul>
-                <li>{this.state.items}</li>
+                {items}
               </ul>
             </React.Fragment>
             <div>
