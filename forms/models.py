@@ -26,11 +26,11 @@ class Form(models.Model):
     phone = PhoneField(blank=True, help_text='Contact phone number', E164_only=False)
     email = models.EmailField(max_length=255, blank=True, null=True)
 
-    contacts = ArrayField(models.TextField(blank=True), blank = True, null = True,)
     date =  models.DateField(auto_now=False, auto_now_add=False)
     time = models.TimeField(auto_now=False, auto_now_add=False)
-    items = ArrayField(models.TextField(blank=True), blank = True, null = True,)
+    items = models.JSONField(null=True, blank=True)
     details = models.TextField(blank=True)
+    guests = models.JSONField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
 

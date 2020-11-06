@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Form from './../Form';
 
 
 class Profile extends Component {
@@ -20,28 +21,26 @@ class Profile extends Component {
 
   render() {
     return(
-      <React.Fragment>
-        <div>
-          <div>
+        <div  className="row justify-content-center text-center mt-3 profile">
+          <div className=" profile-picture">
             <img src={this.state.profile.image} alt="Profile"/>
           </div>
-          <div>
+          <div className="col-sm-12">
             <h3>Name</h3>
             <p>{this.state.profile.first} {this.state.profile.last}</p>
           </div>
-          <div>
+          <div className="col-sm-12">
             <h3>Address</h3>
-            <p>{this.state.profile.address}</p><br/>
-            <p>{this.state.profile.city}, {this.state.profile.state} {this.state.profile.zipcode}</p><br/>
+            <p>{this.state.profile.address}</p>
+            <p>{this.state.profile.city}, {this.state.profile.state} {this.state.profile.zipcode}</p>
           </div>
-          <div>
+          <div className="col-sm-12">
             <h3>Phone Number</h3>
             <p>{this.state.profile.phone}</p>
           </div>
-          <Link to='/editprofile'>Edit Profile</Link>
-          <Link to="/form" className='nav-link'>Create Form</Link>
+          <Link className="col-sm-12 nav-link" to='/editprofile'>Edit Profile</Link>
+          <Form />
         </div>
-      </React.Fragment>
     );
   }
 }

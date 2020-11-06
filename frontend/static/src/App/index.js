@@ -120,7 +120,7 @@ class App extends Component {
       this.setState({isLoggedIn: true});
       this.props.history.push('/profile');
     }
-}
+  }
 
   async handleLogout(){
     const options = {

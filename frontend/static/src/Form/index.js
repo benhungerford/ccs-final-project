@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
+import {Modal, Button} from 'react-bootstrap';
 
 
 function FormItem(props) {
@@ -34,12 +35,13 @@ class Form extends Component {
 
       item: '',
       quantity: 0,
-
+      show: false,
     }
 
     this.handleInput = this.handleInput.bind(this);
     this.updateItems = this.updateItems.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -49,24 +51,23 @@ class Form extends Component {
       .catch(error => console.log('Error:', error));
   }
 
-  async submitForm(event, obj) {
+  async submitForm(event) {
     event.preventDefault();
-    delete obj.image
-    const formData = new FormData();
-    const keys = Object.keys(obj);
-    keys.forEach(key => formData.append(key, obj[key]));
+    const form = {...this.state};
+    delete form.image;
 
     const options = {
       method: 'POST',
       headers: {
         'X-CSRFToken': Cookies.get('csrftoken'),
+        'Content-Type': 'application/json',
       },
-      body: formData,
+      body: JSON.stringify(form),
     };
     const handleError = (err) => console.warn(err);
-    const response = await fetch('/api/v1/forms/', options);
-    const data = await response.json().catch(handleError);
-    console.log('data', data);
+    await fetch('/api/v1/forms/', options).catch(handleError);
+    // const data = await response.json().catch(handleError);
+    // console.log('data', data);
     // this.props.history.push('/profile');
   }
 
@@ -83,127 +84,139 @@ class Form extends Component {
     this.setState({items, item: '', quantity: 0});
   }
 
+  handleClose() {
+    this.setState({ show: false })
+  }
+
   render() {
     console.log(this.state)
     const items = this.state.items.map(item => <FormItem key={this.state.items.indexOf(item)} item={item}/>)
 
     return(
       <React.Fragment>
-        <form onSubmit={(event) => this.submitForm(event, this.state)}>
-          <h3>Details</h3>
-          <p>Choose a time and day:</p>
-            <label htmlFor="time">Time:</label>
-            <input type="time" id="time" name="time" value={this.state.time} onChange={this.handleInput} />
-            <label htmlFor="date">Day: </label>
-            <input type="date" id="date" name="date" value={this.state.date} onChange={this.handleInput} />
-            <div className="form-group">
-              <label htmlFor="details">Now, write a short message asking your guests to sign up for what they want to bring:</label>
-              <textarea className="form-control" id="details" rows="3" name="details" value={this.state.details} onChange={this.handleInput}></textarea>
-            </div>
+      <button className="btn btn-primary" onClick={() => this.setState({ show: true })}>Create Event</button>
+        <Modal
+          show={this.state.show}
+          onHide={this.handleClose}
+          backdrop="static"
+          >
+          <Modal.Header closeButton></Modal.Header>
+          <Modal.Body>
+            <form onSubmit={this.submitForm}>
+              <h3>Details</h3>
+              <p>Choose a time and day:</p>
+                <label htmlFor="time">Time:</label>
+                <input type="time" id="time" name="time" value={this.state.time} onChange={this.handleInput} />
+                <label htmlFor="date">Day: </label>
+                <input type="date" id="date" name="date" value={this.state.date} onChange={this.handleInput} />
+                <div className="form-group">
+                  <label htmlFor="details">Now, write a short message asking your guests to sign up for what they want to bring:</label>
+                  <textarea className="form-control" id="details" rows="3" name="details" value={this.state.details} onChange={this.handleInput}></textarea>
+                </div>
 
-          <h3>Items Needed</h3>
-            <React.Fragment>
-              <ul>
-                {items}
-              </ul>
-            </React.Fragment>
-            <div>
-              <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
-              <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
-            </div>
-            <button onClick={this.updateItems}>Add Item</button>
-
-
-
-          <h3>Contact Info</h3>
-          <p>Let your guests know where the party is and how to contact you.</p>
-
-          <div className="form-group">
-            <label htmlFor="firstname">First Name</label>
-            <input type="text" className="form-control" id="firstname" name="first" value={this.state.first} onChange={this.handleInput} />
-            <label htmlFor="lastname">Last Name</label>
-            <input type="text" className="form-control" id="lastname" name="last" value={this.state.last} onChange={this.handleInput} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="InputEmail1">Email address</label>
-            <input type="email" className="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email" value={this.state.email} onChange={this.handleInput} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
-            <input type="text" className="form-control" id="phone" name="phone" value={this.state.phone} onChange={this.handleInput} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleInput} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="city">City</label>
-            <input type="text" className="form-control" id="city" name="city" value={this.state.city} onChange={this.handleInput} />
-          </div>
-          <div className="form-group col-md-4">
-            <label htmlFor="inputState">State</label>
-            <select id="inputState" className="form-control" name="state" value={this.state.state} onChange={this.handleInput}>
-              <option value="DEF">Select One...</option>
-              <option value="DC">District of Columbia</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="zipcode">Zipcode</label>
-            <input type="text" className="form-control" id="zipcode" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
-          </div>
-          <button type="submit" className="button">Submit</button>
-        </form>
-
+              <h3>Items Needed</h3>
+                <React.Fragment>
+                  <ul>
+                    {items}
+                  </ul>
+                </React.Fragment>
+                <div>
+                  <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+                  <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
+                </div>
+                <button onClick={this.updateItems}>Add Item</button>
+              <h3>Contact Info</h3>
+              <p>Let your guests know where the party is and how to contact you.</p>
+              <div className="form-group">
+                <label htmlFor="firstname">First Name</label>
+                <input type="text" className="form-control" id="firstname" name="first" value={this.state.first} onChange={this.handleInput} />
+                <label htmlFor="lastname">Last Name</label>
+                <input type="text" className="form-control" id="lastname" name="last" value={this.state.last} onChange={this.handleInput} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="InputEmail1">Email address</label>
+                <input type="email" className="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email" value={this.state.email} onChange={this.handleInput} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phone">Phone Number</label>
+                <input type="text" className="form-control" id="phone" name="phone" value={this.state.phone} onChange={this.handleInput} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleInput} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="city">City</label>
+                <input type="text" className="form-control" id="city" name="city" value={this.state.city} onChange={this.handleInput} />
+              </div>
+              <div className="form-group col-md-4">
+                <label htmlFor="inputState">State</label>
+                <select id="inputState" className="form-control" name="state" value={this.state.state} onChange={this.handleInput}>
+                  <option value="DEF">Select One...</option>
+                  <option value="DC">District of Columbia</option>
+                  <option value="AL">Alabama</option>
+                  <option value="AK">Alaska</option>
+                  <option value="AZ">Arizona</option>
+                  <option value="AR">Arkansas</option>
+                  <option value="CA">California</option>
+                  <option value="CO">Colorado</option>
+                  <option value="CT">Connecticut</option>
+                  <option value="DE">Delaware</option>
+                  <option value="FL">Florida</option>
+                  <option value="GA">Georgia</option>
+                  <option value="HI">Hawaii</option>
+                  <option value="ID">Idaho</option>
+                  <option value="IL">Illinois</option>
+                  <option value="IN">Indiana</option>
+                  <option value="IA">Iowa</option>
+                  <option value="KS">Kansas</option>
+                  <option value="KY">Kentucky</option>
+                  <option value="LA">Louisiana</option>
+                  <option value="ME">Maine</option>
+                  <option value="MD">Maryland</option>
+                  <option value="MA">Massachusetts</option>
+                  <option value="MI">Michigan</option>
+                  <option value="MN">Minnesota</option>
+                  <option value="MS">Mississippi</option>
+                  <option value="MO">Missouri</option>
+                  <option value="MT">Montana</option>
+                  <option value="NE">Nebraska</option>
+                  <option value="NV">Nevada</option>
+                  <option value="NH">New Hampshire</option>
+                  <option value="NJ">New Jersey</option>
+                  <option value="NM">New Mexico</option>
+                  <option value="NY">New York</option>
+                  <option value="NC">North Carolina</option>
+                  <option value="ND">North Dakota</option>
+                  <option value="OH">Ohio</option>
+                  <option value="OK">Oklahoma</option>
+                  <option value="OR">Oregon</option>
+                  <option value="PA">Pennsylvania</option>
+                  <option value="RI">Rhode Island</option>
+                  <option value="SC">South Carolina</option>
+                  <option value="SD">South Dakota</option>
+                  <option value="TN">Tennessee</option>
+                  <option value="TX">Texas</option>
+                  <option value="UT">Utah</option>
+                  <option value="VT">Vermont</option>
+                  <option value="VA">Virginia</option>
+                  <option value="WA">Washington</option>
+                  <option value="WV">West Virginia</option>
+                  <option value="WI">Wisconsin</option>
+                  <option value="WY">Wyoming</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="zipcode">Zipcode</label>
+                <input type="text" className="form-control" id="zipcode" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
+              </div>
+              <button type="submit" className="button">Submit</button>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={(event) => this.setState({show: false})}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </React.Fragment>
     )
   }
