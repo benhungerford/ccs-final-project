@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'frontend.apps.FrontendConfig',
-    'forms.apps.FormsConfig',
+    'events.apps.EventsConfig',
 
 
 ]

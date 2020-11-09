@@ -2,9 +2,22 @@
   text-align: center;
 }
 
-/* img {
-  max-width: 80%;
-} */
+li {
+  list-style-type:none;
+}
+
+#home-logo {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 88px;
+}
+
+.home {
+  padding: 25px;
+  margin: 6% 6%;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 18px;
+}
 
 nav {
   /* background: #00897B;
@@ -58,8 +71,8 @@ form {
 .profile-picture {
   display: inline-block;
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   overflow: hidden;
   border-radius: 50%;
 }

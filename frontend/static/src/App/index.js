@@ -7,7 +7,8 @@ import Register from './../Register';
 import Login from './../Login';
 import Profile from './../Profile';
 import EditProfile from './../Profile/EditProfile';
-import Form from './../Form';
+import Event from './../Event';
+import GuestForm from './../Event/GuestForm';
 
 import {
   Switch,
@@ -145,8 +146,11 @@ class App extends Component {
       <React.Fragment>
           <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
           <Switch>
-            <Route path='/form'>
-              <Form />
+            <Route path='/guestform/:eventID'>
+              <GuestForm />
+            </Route>
+            <Route path='/event'>
+              <Event />
             </Route>
             <Route path='/editprofile'>
               <EditProfile editProfile={this.editProfile}/>

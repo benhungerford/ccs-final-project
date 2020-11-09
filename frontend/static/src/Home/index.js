@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Form from './../Form';
 
 
 function Home(props) {
   return(
-    <React.Fragment>
-      <h2>Home Page</h2>
-      <Link to="/register" className='nav-link'>Register</Link>
-      <Form />
-    </React.Fragment>
+    <div className="row justify-content-center text-center mt-3 home">
+      <h2 id="home-logo" className="col-sm-12 col-12">Table</h2>
+      <Link to="/register" className="col-sm-12 col-12 nav-link">Register</Link>
+      <Link to="/login" className="col-sm-12 col-12 nav-link">Login</Link>
+    </div>
   )
 
 }

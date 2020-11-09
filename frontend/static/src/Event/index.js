@@ -12,7 +12,7 @@ function FormItem(props) {
 }
 
 
-class Form extends Component {
+class Event extends Component {
   constructor(props) {
     super(props);
 
@@ -27,7 +27,6 @@ class Form extends Component {
       zipcode: '',
       phone: '',
 
-      contacts: [],
       date: '',
       time: '',
       items: [],
@@ -55,6 +54,9 @@ class Form extends Component {
     event.preventDefault();
     const form = {...this.state};
     delete form.image;
+    delete form.item;
+    delete form.quantity;
+    delete form.show;
 
     const options = {
       method: 'POST',
@@ -65,10 +67,11 @@ class Form extends Component {
       body: JSON.stringify(form),
     };
     const handleError = (err) => console.warn(err);
-    await fetch('/api/v1/forms/', options).catch(handleError);
+    await fetch('/api/v1/events/', options).catch(handleError);
     // const data = await response.json().catch(handleError);
     // console.log('data', data);
     // this.props.history.push('/profile');
+    this.setState({ show: false });
   }
 
   handleInput(event) {
@@ -108,7 +111,7 @@ class Form extends Component {
                 <label htmlFor="time">Time:</label>
                 <input type="time" id="time" name="time" value={this.state.time} onChange={this.handleInput} />
                 <label htmlFor="date">Day: </label>
-                <input type="date" id="date" name="date" value={this.state.date} onChange={this.handleInput} />
+                <input type="date" id="date" name="date" required pattern="\d{2}-\d{2}-\d{4}" value={this.state.date} onChange={this.handleInput} />
                 <div className="form-group">
                   <label htmlFor="details">Now, write a short message asking your guests to sign up for what they want to bring:</label>
                   <textarea className="form-control" id="details" rows="3" name="details" value={this.state.details} onChange={this.handleInput}></textarea>
@@ -222,4 +225,4 @@ class Form extends Component {
   }
 }
 
-export default Form;
+export default Event;

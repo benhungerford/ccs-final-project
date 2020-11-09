@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('api/v1/', include('api.urls')),
     path('api/v1/', include('accounts.urls')),
-    path('api/v1/', include('forms.urls')),
+    path('api/v1/', include('events.urls')),
     # allows you to login/out of the browsable api
     path('api-auth/', include('rest_framework.urls')),
 
