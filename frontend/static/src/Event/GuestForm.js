@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 
+
+function Input() {
+  return(
+    <div className="row">
+      <input className="form-control ml-2 col-4" type="text" placeholder="Name" />
+      <input className="form-control ml-2 col-4" type="text" placeholder="Item" />
+      <button type="button" className="ml-2 btn btn-primary">Submit</button>
+    </div>
+  )
+
+}
+
 class GuestForm extends Component {
   constructor(props) {
     super(props);
@@ -15,17 +27,36 @@ class GuestForm extends Component {
     const eventID = this.props.match.params.eventID;
     fetch(`/api/v1/events/${eventID}/`)
       .then(response => response.json())
-      .then(data => this.setState({ ...data }))
+      .then(data => this.setState({ items: data.items }))
       .catch(error => console.log('Error:', error));
-    // http://127.0.0.1:8000/api/v1/forms/10/
   }
 
   render() {
-    const items = this.state.items.map(item => Object.keys(item));
-    const quantity = this.state.items.map(item => Object.values(item));
+  const html = this.state.items.map((item, index) => {
+
+    let keyHTML, inputHTML;
+
+    for(const key in item) {
+      keyHTML = `${key}: ${item[key]}`;
+      const array = Array.from({length: item[key]});
+      inputHTML = array.map((item, index) => {
+        // console.log('item', item);
+        return(
+          <Input key={index} />
+        )
+      });
+    }
+    return (
+      <div key={index}>
+        <div>{keyHTML}</div>
+        <div>{inputHTML}</div>
+      </div>
+    )
+  });
+
     return(
       <React.Fragment>
-        <div><h1>{items}:{quantity}</h1></div>
+          {html}
       </React.Fragment>
     )
   }
