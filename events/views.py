@@ -14,7 +14,7 @@ class EventListCreateView(generics.ListCreateAPIView):
 
 
 class EventRetrieveUpdateView(generics.RetrieveUpdateAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
