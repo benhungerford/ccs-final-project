@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function Guest(props) {
   return(
-    <li>
-      {props.guest.name}: {props.guest.item}
-    </li>
+    <div className="mb-2">
+      <h4>{props.guest.guest}</h4>: <h4>{props.guest.item}</h4>
+    </div>
   )
 }
 
@@ -28,20 +29,13 @@ class Input extends Component {
   render() {
     return(
       <form onSubmit={(event) => {
-        this.setState({addMode: false});
         this.props.addGuest(event, {guest: this.state.name, item: this.state.item, category: this.props.category});
-      }
-
-      } className="row">
-
-          <React.Fragment>
-          <label htmlFor="name">Name</label>
-          <input id="name" className="form-control ml-2 col-4" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
-          <label htmlFor="item">Item You're Bringing</label>
-          <input id="item" className="form-control ml-2 col-4" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
-          <button type="submit" className="ml-2 btn btn-primary">Submit</button>
-          </React.Fragment>
-
+        }} className="">
+        <React.Fragment>
+          <input id="name" className="form-control ml-2 mb-2" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
+          <input id="item" className="form-control ml-2 mb-2" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
+          <button type="submit" className="justify-content-end mb-2 btn btn-primary">Submit</button>
+        </React.Fragment>
       </form>
     )
   }
@@ -52,8 +46,12 @@ class GuestForm extends Component {
     super(props);
 
     this.state = {
+      first: '',
+      date: '',
+      time: '',
       items: [],
       guests: [],
+
     }
 
     this.addGuest = this.addGuest.bind(this);
@@ -63,13 +61,16 @@ class GuestForm extends Component {
     const eventID = this.props.match.params.eventID;
     fetch(`/api/v1/events/${eventID}/`)
       .then(response => response.json())
-      .then(data => this.setState({ items: data.items, guests: data.guests || [] }))
+      .then(data => this.setState({ guests: data.guests || [], ...data }))
       .catch(error => console.log('Error:', error));
   }
 
   async addGuest(event, obj) {
-
     event.preventDefault();
+
+    const guests = [...this.state.guests];
+    guests.push(obj);
+    this.setState({guests});
 
     const items = [...this.state.items];
     items.forEach(item => {
@@ -78,16 +79,12 @@ class GuestForm extends Component {
       }
     });
 
-    const guests = [...this.state.guests];
-    guests.push(obj);
-    this.setState({guests});
-
-
     const eventID = this.props.match.params.eventID;
     const options = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken'),
       },
       body: JSON.stringify({guests, items}),
     };
@@ -96,16 +93,14 @@ class GuestForm extends Component {
   }
 
   render() {
-
-
-  console.log('items in state', this.state.items);
   const html = this.state.items.map((item, index) => {
     let keyHTML, inputHTML;
-
     for(const key in item) {
       // item key is number of input that should be created for that key value, e.g. 4 sides
       keyHTML = `${key}: ${item[key]}`;
-      console.log(keyHTML, item[key]);
+      if (item[key] === 0) {
+        keyHTML = '';
+      }
       const array = Array.from({length: item[key]});
       inputHTML = array.map((item, index) => {
         return(
@@ -115,20 +110,28 @@ class GuestForm extends Component {
     }
     return (
       <div key={index}>
-        <div>{keyHTML}</div>
-        <div>{inputHTML}</div>
+        {keyHTML}
+        {inputHTML}
       </div>
     )
   });
 
+  const guests = this.state.guests.map(guest => <Guest key={guest.index} guest={guest} />);
 
     return(
       <React.Fragment>
-        <ul>
-          {html}
-
-        </ul>
-
+      <div className="row justify-content-center text-center">
+        <div className="col-12">
+          <h3><p>&#128075;</p>Hey there!</h3>
+          <p>{this.state.first} has invited you to bring something to the table at {this.state.time} on {this.state.date}!<br/>
+            If you're in, fill out your name and the item your bringing down below.
+          </p>
+        </div>
+        <div className="col-11 col-sm-6">
+            {html}
+            {guests}
+        </div>
+      </div>
       </React.Fragment>
     )
   }

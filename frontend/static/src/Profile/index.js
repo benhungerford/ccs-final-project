@@ -26,7 +26,6 @@ class Profile extends Component {
       .catch(error => console.log('Error:', error));
   }
 
-
   render() {
     const events = this.state.events.map(event =>
       <Link key={event.id} className="col-sm-12 nav-link" to={`/guestform/${event.id}`}>

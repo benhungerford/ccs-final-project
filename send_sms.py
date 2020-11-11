@@ -7,12 +7,13 @@ from twilio.rest import Client
 # and set the environment variables. See http://twil.io/secure
 account_sid = os.environ['account_sid']
 auth_token = os.environ['auth_token']
+TWILIO_PHONE_NUMBER = os.environ['TWILIO_PHONE_NUMBER']
 client = Client(account_sid, auth_token)
 
 message = client.messages \
                 .create(
                      body="Checking!",
-                     from_='+19108174226',
+                     from_= TWILIO_PHONE_NUMBER,
                      to='+3363066848',
                  )
 

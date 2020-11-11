@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Event from './../Event';
 
 
 function Nav(props) {
@@ -17,9 +16,8 @@ function Nav(props) {
 
           : <React.Fragment>
               <div className="nav justify-content-end">
-                <Link to="/" className="nav-link" onClick={props.handleLogout}>Logout</Link>
                 <Link to="/profile" className="nav-link">Profile</Link>
-                <Event />
+                <Link to="/" className="nav-link" onClick={props.handleLogout}>Logout</Link>
               </div>
             </React.Fragment>
           }

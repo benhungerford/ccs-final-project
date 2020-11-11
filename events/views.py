@@ -20,3 +20,12 @@ class EventRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
+
+# class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+#     permission_classes = (permissions.IsAuthenticated,)
+#     queryset = Event.objects.all()
+#     serializer_class = EventSerializer
+#
+#     def perform_create(self, serializer):
+#         serializer.save(user = self.request.user)

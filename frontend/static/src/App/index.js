@@ -29,6 +29,7 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.createProfile = this.createProfile.bind(this);
     this.editProfile = this.editProfile.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
   }
 
   async handleRegistration(event, obj) {
@@ -140,11 +141,18 @@ class App extends Component {
     }
   }
 
+  deleteEvent() {
+    fetch(`/api/v1/events/${this.props.eventID}/`, {
+      method: 'DELETE',
+    })
+    .catch((error) => console.error('Error:', error));
+  }
+
 
   render() {
     return (
       <React.Fragment>
-          <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn}/>
+          <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn} />
           <Switch>
             <Route path='/guestform/:eventID'>
               <GuestForm />
@@ -153,10 +161,10 @@ class App extends Component {
               <Event />
             </Route>
             <Route path='/editprofile'>
-              <EditProfile editProfile={this.editProfile}/>
+              <EditProfile editProfile={this.editProfile} />
             </Route>
             <Route path='/profile'>
-              <Profile />
+              <Profile deleteEvent={this.deleteEvent} />
             </Route>
             <Route path="/register">
               <Register handleRegistration={this.handleRegistration} />
