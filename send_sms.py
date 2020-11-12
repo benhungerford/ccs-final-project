@@ -13,7 +13,7 @@ client = Client(account_sid, auth_token)
 message = client.messages \
                 .create(
                      body="Checking!",
-                     from_= TWILIO_PHONE_NUMBER,
+                     from_= os.environ['TWILIO_PHONE_NUMBER'],
                      to='+3363066848',
                  )
 

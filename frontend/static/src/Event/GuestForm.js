@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 function Guest(props) {
   return(
     <div className="mb-2">
-      <h4>{props.guest.guest}</h4>: <h4>{props.guest.item}</h4>
+      <h4>{props.guest.name}</h4>: <h4>{props.guest.item}</h4>
     </div>
   )
 }
@@ -29,7 +29,7 @@ class Input extends Component {
   render() {
     return(
       <form onSubmit={(event) => {
-        this.props.addGuest(event, {guest: this.state.name, item: this.state.item, category: this.props.category});
+        this.props.addGuest(event, {name: this.state.name, item: this.state.item, category: this.props.category});
         }} className="">
         <React.Fragment>
           <input id="name" className="form-control ml-2 mb-2" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
@@ -55,13 +55,14 @@ class GuestForm extends Component {
     }
 
     this.addGuest = this.addGuest.bind(this);
+    this.alertHost = this.alertHost.bind(this);
   }
 
   componentDidMount() {
     const eventID = this.props.match.params.eventID;
     fetch(`/api/v1/events/${eventID}/`)
       .then(response => response.json())
-      .then(data => this.setState({ guests: data.guests || [], ...data }))
+      .then(data => this.setState({ ...data, guests: data.guests || [], }))
       .catch(error => console.log('Error:', error));
   }
 
@@ -90,6 +91,20 @@ class GuestForm extends Component {
     };
     const handleError = (err) => console.warn(err);
     await fetch(`/api/v1/events/${eventID}/`, options).catch(handleError);
+    this.alertHost(obj);
+  }
+
+  async alertHost(obj) {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
+      body: JSON.stringify(obj),
+    };
+    const handleError = (err) => console.warn(err);
+    await fetch(`/api/v1/submit/`, options).catch(handleError);
   }
 
   render() {
@@ -116,7 +131,7 @@ class GuestForm extends Component {
     )
   });
 
-  const guests = this.state.guests.map(guest => <Guest key={guest.index} guest={guest} />);
+  const guests = this.state.guests?.map(guest => <Guest key={guest.index} guest={guest} />);
 
     return(
       <React.Fragment>
