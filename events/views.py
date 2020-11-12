@@ -9,7 +9,9 @@ from twilio.rest import Client
 
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+import json
+
 
 
 class EventListCreateView(generics.ListCreateAPIView):
@@ -32,8 +34,14 @@ class EventRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 
 # class AlertHost(generics.RetrieveUpdateDestroyAPIView):
 @api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
 def host_sms(request):
-    message_to_broadcast = ("One of your guests has signed up to bring something to the table!")
+    # import pdb; pdb.set_trace()
+    # request = str(request)
+    # data = json.loads(request)
+    name = request.data.get('name')
+    item = request.data.get('item')
+    message_to_broadcast = ("{0} just signed up to bring {1} to the table!".format(name, item))
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     for recipient in settings.SMS_BROADCAST_TO_NUMBERS:
         if recipient:

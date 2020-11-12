@@ -150,6 +150,7 @@ class App extends Component {
     if(data.detail === "Successfully logged out."){
       Cookies.remove('Authorization');
       this.setState({isLoggedIn: false});
+      this.props.history.push('/home');
     }
   }
 
@@ -165,29 +166,31 @@ class App extends Component {
     return (
       <React.Fragment>
           <Nav handleLogout={this.handleLogout} isLoggedIn={this.state.isLoggedIn} />
-          <Switch>
-            <Route path='/guestform/:eventID'>
-              <GuestForm />
-            </Route>
-            <Route path='/event'>
-              <Event />
-            </Route>
-            <Route path='/editprofile'>
-              <EditProfile editProfile={this.editProfile} />
-            </Route>
-            <Route path='/profile'>
-              <Profile deleteEvent={this.deleteEvent} />
-            </Route>
-            <Route path="/register">
-              <Register handleRegistration={this.handleRegistration} />
-            </Route>
-            <Route path="/login">
-              <Login handleLogin={this.handleLogin} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
+          <div className="row justify-content-center">
+            <Switch>
+              <Route path='/guestform/:eventID'>
+                <GuestForm />
+              </Route>
+              <Route path='/event'>
+                <Event />
+              </Route>
+              <Route path='/editprofile'>
+                <EditProfile editProfile={this.editProfile} />
+              </Route>
+              <Route path='/profile'>
+                <Profile deleteEvent={this.deleteEvent} />
+              </Route>
+              <Route path="/register">
+                <Register handleRegistration={this.handleRegistration} />
+              </Route>
+              <Route path="/login">
+                <Login handleLogin={this.handleLogin} />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
       </React.Fragment>
     );
   }

@@ -4,9 +4,9 @@ import Cookies from 'js-cookie';
 
 function Guest(props) {
   return(
-    <div className="mb-2">
-      <h4>{props.guest.name}</h4>: <h4>{props.guest.item}</h4>
-    </div>
+    <li className="mb-2">
+      <p>{props.guest.name}</p>: <p>{props.guest.item}</p>
+    </li>
   )
 }
 
@@ -137,14 +137,18 @@ class GuestForm extends Component {
       <React.Fragment>
       <div className="row justify-content-center text-center">
         <div className="col-12">
-          <h3><p>&#128075;</p>Hey there!</h3>
-          <p>{this.state.first} has invited you to bring something to the table at {this.state.time} on {this.state.date}!<br/>
+          <h3 className=""><p>&#128075;</p>Hey there!</h3>
+          <p className="">{this.state.first} has invited you to bring something to the table at {this.state.time} on {this.state.date}!<br/>
             If you're in, fill out your name and the item your bringing down below.
           </p>
         </div>
-        <div className="col-11 col-sm-6">
+        <div className="col-12 col-sm-6">
+          <ul className="guest-form">
             {html}
+          </ul>
+          <ul className="guest-form">
             {guests}
+          </ul>
         </div>
       </div>
       </React.Fragment>

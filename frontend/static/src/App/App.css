@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+ul {
+  padding: none;
+}
+
 li {
   list-style-type:none;
 }
@@ -61,18 +65,18 @@ form {
 
 .profile {
   padding: 25px;
-  margin: 6% 6%;
+  margin: 0px 0px 12px 0px;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
   border-radius: 18px;
-  max-width: 540px;
+  /* max-width: 540px; */
 }
 
 .profile-picture {
   display: inline-block;
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   overflow: hidden;
   border-radius: 50%;
 }
@@ -83,7 +87,21 @@ form {
   /* margin-left: -50px; */
 }
 
+.profile-text {
+  line-height: 8px;
+}
+
 #delete {
   border: none;
   background: none;
+}
+
+/* Guest Form */
+
+.guest-form {
+  padding: 25px;
+  margin: 6% 6%;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 18px;
 }

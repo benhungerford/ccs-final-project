@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Event from './../Event';
+import EventList from './EventList';
 
 
 class Profile extends Component {
@@ -27,45 +28,40 @@ class Profile extends Component {
   }
 
   render() {
-    const events = this.state.events.map(event =>
-      <Link key={event.id} className="col-sm-12 nav-link" to={`/guestform/${event.id}`}>
-        {event.date}
-      </Link>
+    const events = this.state.events.map(event => <EventList key={event.index} event={event} />
 
     );
     return(
       <React.Fragment>
-        <div  className="row justify-content-center text-center mt-3">
-          <div className="col-12 col-sm-6">
-            <div className="">
+          <div className="row col-12 col-sm-7 justify-content-center text-center profile">
+            <div className="col-12">
               <div className="profile-picture">
                 <img src={this.state.profile.image} alt="Profile"/>
               </div>
             </div>
-            <div className="">
-              <h3>Name</h3>
-              <p>{this.state.profile.first} {this.state.profile.last}</p>
-            </div>
-            <div className="">
-              <h3>Address</h3>
-              <p>{this.state.profile.address}</p>
-              <p>{this.state.profile.city}, {this.state.profile.state} {this.state.profile.zipcode}</p>
-            </div>
-            <div className="">
-              <h3>Phone Number</h3>
-              <p>{this.state.profile.phone}</p>
-            </div>
-            <Link className="col nav-link" to='/editprofile'>Edit Profile</Link>
-          </div>
-          <div className="col-12 col-sm-6">
-            <Event />
-            <div className="">
-              <ul>
-                {events}
-              </ul>
+            <div className="col-12">
+              <div className="profile-text">
+                <h6>Name</h6>
+                <p>{this.state.profile.first} {this.state.profile.last}</p>
+              </div>
+              <div className="profile-text">
+                <h6>Address</h6>
+                <p>{this.state.profile.address}</p>
+                <p>{this.state.profile.city}, {this.state.profile.state} {this.state.profile.zipcode}</p>
+              </div>
+              <div className="profile-text">
+                <h6>Phone Number</h6>
+                <p>{this.state.profile.phone}</p>
+              </div>
+              <Link className="col nav-link" to='/editprofile'>Edit Profile</Link>
             </div>
           </div>
-        </div>
+          <div className="row col-12 col-sm-7 justify-content-center text-center profile">
+            <div className="col-12">
+              {events}
+              <Event />
+            </div>
+          </div>
 
       </React.Fragment>
     );

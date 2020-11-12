@@ -41,7 +41,7 @@ class EditProfile extends Component {
   render() {
     return(
       <React.Fragment>
-        <form onSubmit={(event) => this.props.editProfile(event, this.state)}>
+        <form className="profile" onSubmit={(event) => this.props.editProfile(event, this.state)}>
           <h4>Edit Your Profile</h4>
           <div className="form-group">
             <label htmlFor="firstname">First Name</label>

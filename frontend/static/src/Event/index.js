@@ -122,12 +122,12 @@ class Event extends Component {
                   <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
                   <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
                 </div>
-                <button onClick={this.updateItems}>Add Item</button>
-              <button type="submit" className="button">Submit</button>
+                <button className="btn btn-primary" onClick={this.updateItems}>Add Item</button>
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={(event) => this.setState({show: false})}>Close</Button>
+            <button type="submit" className="btn btn-primary">Submit</button>
+            <Button className="btn btn-primary" onClick={(event) => this.setState({show: false})}>Close</Button>
           </Modal.Footer>
         </Modal>
       </React.Fragment>
