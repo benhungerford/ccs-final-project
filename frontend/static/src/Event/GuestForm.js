@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 function Guest(props) {
   return(
-    <li className="mb-2">
+    <li id="items-header" className="mb-2">
       <p>{props.guest.name}</p>: <p>{props.guest.item}</p>
     </li>
   )
@@ -30,11 +31,15 @@ class Input extends Component {
     return(
       <form onSubmit={(event) => {
         this.props.addGuest(event, {name: this.state.name, item: this.state.item, category: this.props.category});
-        }} className="">
+      }} id="guest-input" className="row justify-content-center">
         <React.Fragment>
-          <input id="name" className="form-control ml-2 mb-2" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
-          <input id="item" className="form-control ml-2 mb-2" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
-          <button type="submit" className="justify-content-end mb-2 btn btn-primary">Submit</button>
+          <div className="col-8">
+            <input id="name" className="form-control mb-2" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
+            <input id="item" className="form-control mb-2" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
+          </div>
+          <div className="row justify-content-end col-8 mr-3 mb-1">
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </div>
         </React.Fragment>
       </form>
     )
@@ -108,7 +113,7 @@ class GuestForm extends Component {
   }
 
   render() {
-  const html = this.state.items.map((item, index) => {
+  const html = this.state.items?.map((item, index) => {
     let keyHTML, inputHTML;
     for(const key in item) {
       // item key is number of input that should be created for that key value, e.g. 4 sides
@@ -125,7 +130,7 @@ class GuestForm extends Component {
     }
     return (
       <div key={index}>
-        {keyHTML}
+        <h4 className="items-header">{keyHTML}</h4>
         {inputHTML}
       </div>
     )
@@ -136,13 +141,13 @@ class GuestForm extends Component {
     return(
       <React.Fragment>
       <div className="row justify-content-center text-center">
-        <div className="col-12">
-          <h3 className=""><p>&#128075;</p>Hey there!</h3>
-          <p className="">{this.state.first} has invited you to bring something to the table at {this.state.time} on {this.state.date}!<br/>
+        <div className="col-10 col-sm-7">
+          <h3>&#128075; Hey there!</h3>
+          <p className="">{this.state.first} has invited you to bring something to the table on {moment(this.state.datetime).format("dddd, MMMM Do")} at {moment(this.state.datetime).format("h:mm a")}!
             If you're in, fill out your name and the item your bringing down below.
           </p>
         </div>
-        <div className="col-12 col-sm-6">
+        <div className="col-12 col-sm-7">
           <ul className="guest-form">
             {html}
           </ul>
@@ -158,31 +163,3 @@ class GuestForm extends Component {
 }
 
 export default withRouter(GuestForm);
-
-
-
-
-
-
-
-
-
-
-
-// const items = [{"Sides": 3}, {"Desserts": 3}];
-// const guests = [{"guest": "ben", "item": "chips", "category": "Sides"}, {"guest": "taylor", "item": "salad", "category": "Sides" }];
-//
-//
-// const categories = guests.map(guest => guest.category);
-// console.log('categories', categories);
-// categories.forEach(category => {
-//   // e.g. category is equal to "Sides"
-//   items.forEach(item => {
-//     for(const key in item) {
-//       if(key === category){
-//         console.log('should be removing');
-//         item[key] -= 1;
-//       }
-//     }
-//   })
-// });

@@ -16,11 +16,14 @@ import json
 
 class EventListCreateView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    queryset = Event.objects.all()
+    # queryset = Event.objects.all()
     serializer_class = EventSerializer
 
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
+    def get_queryset(self):
+        return Event.objects.filter(user = self.request.user)
 
 
 class EventRetrieveUpdateView(generics.RetrieveUpdateAPIView):

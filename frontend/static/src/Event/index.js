@@ -26,9 +26,7 @@ class Event extends Component {
       state: '',
       zipcode: '',
       phone: '',
-
-      date: '',
-      time: '',
+      datetime: '',
       items: [],
       details: '',
 
@@ -68,9 +66,6 @@ class Event extends Component {
     };
     const handleError = (err) => console.warn(err);
     await fetch('/api/v1/events/', options).catch(handleError);
-    // const data = await response.json().catch(handleError);
-    // console.log('data', data);
-    // this.props.history.push('/profile');
     this.setState({ show: false });
   }
 
@@ -91,8 +86,11 @@ class Event extends Component {
     this.setState({ show: false })
   }
 
+  handleClick() {
+    this.submitForm();
+  }
+
   render() {
-    console.log(this.state)
     const items = this.state.items.map(item => <FormItem key={this.state.items.indexOf(item)} item={item}/>)
 
     return(
@@ -103,15 +101,12 @@ class Event extends Component {
           onHide={this.handleClose}
           backdrop="static"
           >
-          <Modal.Header closeButton></Modal.Header>
+
           <Modal.Body>
             <form onSubmit={this.submitForm}>
               <h3>Details</h3>
-              <p>Choose a time and day:</p>
-                <label htmlFor="time">Time:</label>
-                <input type="time" id="time" name="time" value={this.state.time} onChange={this.handleInput} />
-                <label htmlFor="date">Day: </label>
-                <input type="date" id="date" name="date" required pattern="\d{2}-\d{2}-\d{4}" value={this.state.date} onChange={this.handleInput} />
+              <input type="datetime-local" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
+
               <h3>Items Needed</h3>
                 <React.Fragment>
                   <ul>
@@ -123,12 +118,11 @@ class Event extends Component {
                   <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
                 </div>
                 <button className="btn btn-primary" onClick={this.updateItems}>Add Item</button>
+                <hr/>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <button type="submit" className="btn btn-primary">Submit</button>
             <Button className="btn btn-primary" onClick={(event) => this.setState({show: false})}>Close</Button>
-          </Modal.Footer>
+          </Modal.Body>
         </Modal>
       </React.Fragment>
     )
