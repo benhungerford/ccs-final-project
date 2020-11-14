@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
+import {withRouter} from 'react-router-dom';
 import {Modal, Button} from 'react-bootstrap';
 
 
@@ -46,6 +47,11 @@ class Event extends Component {
       .then(response => response.json())
       .then(data => this.setState({ ...data }))
       .catch(error => console.log('Error:', error));
+    const eventID = this.props.match.params.eventID;
+    fetch(`/api/v1/events/${eventID}/`)
+        .then(response => response.json())
+        .then(data => this.setState({ ...data }))
+        .catch(error => console.log('Error:', error));
   }
 
   async submitForm(event) {
@@ -68,6 +74,7 @@ class Event extends Component {
     await fetch('/api/v1/events/', options).catch(handleError);
     this.setState({ show: false });
   }
+
 
   handleInput(event) {
     this.setState({ [event.target.name]: event.target.value });
@@ -129,4 +136,4 @@ class Event extends Component {
   }
 }
 
-export default Event;
+export default withRouter(Event);

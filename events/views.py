@@ -26,7 +26,7 @@ class EventListCreateView(generics.ListCreateAPIView):
         return Event.objects.filter(user = self.request.user)
 
 
-class EventRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+class EventRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer

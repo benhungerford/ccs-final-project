@@ -8,6 +8,7 @@ import Login from './../Login';
 import Profile from './../Profile';
 import EditProfile from './../Profile/EditProfile';
 import Event from './../Event';
+import EditEvent from './../Event/EditEvent';
 import GuestForm from './../Event/GuestForm';
 import {
   Switch,
@@ -170,6 +171,9 @@ class App extends Component {
             <Switch>
               <Route path='/guestform/:eventID'>
                 <GuestForm />
+              </Route>
+              <Route path='/editevent/:eventID'>
+                <EditEvent />
               </Route>
               <Route path='/event'>
                 <Event />
