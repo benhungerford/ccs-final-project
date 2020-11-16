@@ -6,19 +6,19 @@ import moment from 'moment';
 
 function Guest(props) {
   return(
-    <li id="items-header" className="mb-2">
-      <p>{props.guest.name}</p>: <p>{props.guest.item}</p>
-      <button type="button" onClick={() => props.deleteGuest()}><i class="fas fa-minus-circle"></i></button>
-    </li>
+    <div id="items-header" className="row mb-2 ml-2">
+      <button className="delete-button" type="button" onClick={() => props.deleteGuest()}><i className="fas fa-minus-circle"></i></button>
+      <p className="edit">{props.guest.name}: {props.guest.item}</p>
+    </div>
   )
 }
 
 function FormItem(props) {
   return(
-    <li>
-      {Object.keys(props.item)}: {Object.values(props.item)}
-      <button type="button" onClick={() => props.deleteItem()}><i class="fas fa-minus-circle"></i></button>
-    </li>
+    <div className="row ml-2">
+      <button className="delete-button" type="button" onClick={() => props.deleteItem()}><i className="fas fa-minus-circle"></i></button>
+      <p className="edit">{Object.keys(props.item)}: {Object.values(props.item)}</p>
+    </div>
   )
 }
 
@@ -131,31 +131,38 @@ class EditEvent extends Component {
     const guests = this.state.guests?.map(guest => <Guest key={guest.index} guest={guest} deleteGuest={this.deleteGuest} />);
     return(
       <React.Fragment>
-            <form onSubmit={this.updateEvent}>
-              <h3>Date:</h3>
+          <div className="col-11 col-sm-6 mt-2">
+            <h2>Edit Your Event</h2>
+            <form id="form" onSubmit={this.updateEvent}>
+              <h3>Date</h3>
               <h4>{moment(this.state.datetime).format("dddd, MMMM Do, h:mm a")}</h4>
-              <label htmlFor="datetime">Edit Event Date and Time:</label>
-              <input type="datetime-local" id="datetime" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
-
+              <label htmlFor="datetime">Edit Date and Time:</label>
+              <input className="form-control" type="datetime-local" id="datetime" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
+              <hr/>
               <h3>Items Needed</h3>
-                <React.Fragment>
-                  <ul>
-                    {items}
-                  </ul>
-                </React.Fragment>
                 <div>
-                  <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
-                  <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
+                  <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+                  <input className="form-control mb-1" type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
                 </div>
-                <button className="btn btn-primary" onClick={this.updateItems}>Add Item</button>
+                <div className="row justify-content-center">
+                  <button className="col-sm-3 col-m-4 col-11 button" onClick={this.updateItems}><i className="fas fa-plus-circle"></i> Add</button>
+                </div>
                 <hr/>
-                <div>
-                  <ul>
+                <React.Fragment>
+                  <div>
+                    {items}
+                  </div>
+                </React.Fragment>
+                <hr/>
+                  <div>
                     {guests}
-                  </ul>
+                  </div>
+                <hr/>
+                <div className="row justify-content-center">
+                  <button type="submit" className="col-sm-4 col-12 button">Save</button>
                 </div>
-                <button type="submit" className="btn btn-primary">Save</button>
             </form>
+          </div>
       </React.Fragment>
     )
   }

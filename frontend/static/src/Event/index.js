@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
 import {withRouter} from 'react-router-dom';
-import {Modal, Button} from 'react-bootstrap';
 
 
 function FormItem(props) {
   return(
+    <React.Fragment>
     <li>
-      {Object.keys(props.item)}: {Object.values(props.item)}
+      <h4>{Object.keys(props.item)}: {Object.values(props.item)}</h4>
     </li>
+    <hr/>
+    </React.Fragment>
   )
 }
 
@@ -102,35 +104,31 @@ class Event extends Component {
 
     return(
       <React.Fragment>
-      <button className="btn btn-primary" onClick={() => this.setState({ show: true })}>Create Event</button>
-        <Modal
-          show={this.state.show}
-          onHide={this.handleClose}
-          backdrop="static"
-          >
-
-          <Modal.Body>
-            <form onSubmit={this.submitForm}>
-              <h3>Details</h3>
-              <input type="datetime-local" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
-
+        <div className="col-11 col-sm-6 mt-2">
+          <h2>Create Event</h2>
+          <p className="ml-3">Here's where you can fill out what you need your friends to bring bring to the table! Simply choose a time and date then add categories of what you need.</p>
+            <form id="form" onSubmit={this.submitForm}>
+              <h3>Date</h3>
+              <input className="form-control" type="datetime-local" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
+              <hr/>
               <h3>Items Needed</h3>
-                <React.Fragment>
-                  <ul>
-                    {items}
-                  </ul>
-                </React.Fragment>
-                <div>
-                  <input className="form-control" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
-                  <input type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
+                <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+                <input className="form-control mb-1" type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
+                <div className="row justify-content-center">
+                  <button className="col-sm-3 col-m-4 col-11 button" onClick={this.updateItems}><i className="fas fa-plus-circle"></i> Add</button>
                 </div>
-                <button className="btn btn-primary" onClick={this.updateItems}>Add Item</button>
                 <hr/>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <React.Fragment>
+                  <div>
+                    {items}
+                  </div>
+                </React.Fragment>
+
+                <div className="row justify-content-center">
+                  <button type="submit" className="col-sm-4 col-11 button">Submit</button>
+                </div>
             </form>
-            <Button className="btn btn-primary" onClick={(event) => this.setState({show: false})}>Close</Button>
-          </Modal.Body>
-        </Modal>
+        </div>
       </React.Fragment>
     )
   }

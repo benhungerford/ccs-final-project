@@ -5,9 +5,9 @@ import moment from 'moment';
 
 function Guest(props) {
   return(
-    <li id="items-header" className="mb-2">
-      <p>{props.guest.name}</p>: <p>{props.guest.item}</p>
-    </li>
+    <div id="items-header" className="row mb-2 ml-1">
+      <p className="edit">{props.guest.name}: {props.guest.item}</p>
+    </div>
   )
 }
 
@@ -29,19 +29,18 @@ class Input extends Component {
 
   render() {
     return(
-      <form onSubmit={(event) => {
-        this.props.addGuest(event, {name: this.state.name, item: this.state.item, category: this.props.category});
-      }} id="guest-input" className="row justify-content-center">
-        <React.Fragment>
-          <div className="col-8">
-            <input id="name" className="form-control mb-2" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
-            <input id="item" className="form-control mb-2" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
-          </div>
-          <div className="row justify-content-end col-8 mr-3 mb-1">
-            <button type="submit" className="btn btn-primary">Submit</button>
-          </div>
-        </React.Fragment>
-      </form>
+      <React.Fragment>
+        <form onSubmit={(event) => {
+          this.props.addGuest(event, {name: this.state.name, item: this.state.item, category: this.props.category});
+        }} id="guest-input" className="row mb-2">
+          <React.Fragment>
+              <input id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
+              <input id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
+              <button type="submit" className="col-2 guest-button">Add</button>
+          </React.Fragment>
+        </form>
+        <hr/>
+      </React.Fragment>
     )
   }
 }
@@ -130,7 +129,10 @@ class GuestForm extends Component {
     }
     return (
       <div key={index}>
-        <h4 className="items-header">{keyHTML}</h4>
+        <div className="row justify-content-start ml-1">
+          <h4 className="items-header">{keyHTML}</h4>
+        </div>
+
         {inputHTML}
       </div>
     )
@@ -140,20 +142,23 @@ class GuestForm extends Component {
 
     return(
       <React.Fragment>
-      <div className="row justify-content-center text-center">
-        <div className="col-10 col-sm-7">
+      <div id="form" className="row justify-content-center text-center col-11 col-sm-7">
+        <div className="col-12 mb-2">
           <h3>&#128075; Hey there!</h3>
-          <p className="">{this.state.first} has invited you to bring something to the table on {moment(this.state.datetime).format("dddd, MMMM Do")} at {moment(this.state.datetime).format("h:mm a")}!
+          <p className=""><b>{this.state.first}</b> has invited you to bring something to the table on <b>{moment(this.state.datetime).format("dddd, MMMM Do")} at {moment(this.state.datetime).format("h:mm a")}</b>!
             If you're in, fill out your name and the item your bringing down below.
           </p>
         </div>
-        <div className="col-12 col-sm-7">
-          <ul className="guest-form">
+        <div className="col-12">
+          <div className="">
             {html}
-          </ul>
-          <ul className="guest-form">
+          </div>
+          <div className="">
+            <h3>Guests</h3>
+            <p>See what each guest is bringing</p>
             {guests}
-          </ul>
+          </div>
+          <hr/>
         </div>
       </div>
       </React.Fragment>

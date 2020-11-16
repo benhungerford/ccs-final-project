@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Event from './../Event';
 import EventList from './EventList';
 
 
@@ -33,13 +32,13 @@ class Profile extends Component {
     );
     return(
       <React.Fragment>
-          <div className="row col-12 col-sm-7 justify-content-center text-center profile">
+          <div className="row col-11 col-sm-7 justify-content-center text-center mt-2 mb-3 profile">
             <div className="col-12">
               <div className="profile-picture">
                 <img src={this.state.profile.image} alt="Profile"/>
               </div>
             </div>
-            <div className="col-12">
+            <div className="">
               <div className="profile-text">
                 <h6>Name</h6>
                 <p>{this.state.profile.first} {this.state.profile.last}</p>
@@ -53,13 +52,17 @@ class Profile extends Component {
                 <h6>Phone Number</h6>
                 <p>{this.state.profile.phone}</p>
               </div>
-              <Link className="col nav-link" to='/editprofile'>Edit Profile</Link>
+              <Link className="edit-profile" to='/editprofile'><i className="fas fa-pen"></i> Edit Profile</Link>
             </div>
           </div>
-          <div className="row col-12 col-sm-7 justify-content-center text-center profile">
-            <div className="col-12">
+
+          <div className="row col-11 col-sm-7 justify-content-center text-center profile">
+            <div className="row col-12 justify-content-center text-center">
+              <h3 className="col-12 events">Your Events</h3>
+              <Link to="/event" className="col-sm-4 col-12 button">New Event <i className="fas fa-plus"></i></Link>
+            </div>
+            <div className="mt-1">
               {events}
-              <Event />
             </div>
           </div>
 

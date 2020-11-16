@@ -11,16 +11,13 @@ function Nav(props) {
               <div className="nav justify-content-start">
                 <Link to="/" id="home-button" className="navbar-brand">Home</Link>
               </div>
-              <div className="nav justify-content-end">
-                <Link to="/login" className="nav-link">Login</Link>
-              </div>
             </React.Fragment>
           : <React.Fragment>
               <div className="nav justify-content-start">
-                <Link to="/profile" className="navbar-brand">Home</Link>
+                <Link to="/profile" id="home-button" className="navbar-brand">Home</Link>
               </div>
               <div className="nav justify-content-end">
-                <Link to="/" className="nav-link" onClick={props.handleLogout}>Logout</Link>
+                <Link to="/" id="logout-button"className="nav-link" onClick={props.handleLogout}>Logout</Link>
               </div>
             </React.Fragment>
           }
