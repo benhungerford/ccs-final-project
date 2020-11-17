@@ -10,9 +10,9 @@ function EventList(props) {
         <div className="col-11 mb-2">
           <h4 className="">{moment.utc(props.event.datetime).format("dddd, MMMM Do")} at {moment.utc(props.event.datetime).format("h:mm a")}</h4>
         </div>
-        <button onClick={() => {navigator.clipboard.writeText(url)}} className="col-11 col-sm-4 button">Copy Link</button>
-        <Link key={props.event.id} className="col-11 col-sm-4 button" to={`/guestform/${props.event.id}`}>View</Link>
-        <Link key={props.event.id} className="col-11 col-sm-4 button" to={`/editevent/${props.event.id}`}>Edit</Link>
+        <button onClick={() => {navigator.clipboard.writeText(url)}} className="col-11 col-sm-3 button">Copy Link</button>
+        <Link key={props.event.id} className="col-11 col-sm-3 button" to={`/guestform/${props.event.id}`}>View</Link>
+        <Link key={props.event.id} className="col-11 col-sm-3 button" to={`/editevent/${props.event.id}`}>Edit</Link>
       </div>
       <hr/>
     </React.Fragment>

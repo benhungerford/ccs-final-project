@@ -27,7 +27,11 @@ class Profile extends Component {
   }
 
   render() {
-    const events = this.state.events.map(event => <EventList key={event.index} event={event} copyEventURL={this.copyEventURL} />
+    const eventsSortedByDate = this.state.events.sort(function(a, b) {
+            var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+            return dateA - dateB;
+          });
+    const events = eventsSortedByDate.map(event => <EventList key={event.index} event={event} copyEventURL={this.copyEventURL} />
 
     );
     return(

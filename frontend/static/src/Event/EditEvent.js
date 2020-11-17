@@ -138,7 +138,7 @@ class EditEvent extends Component {
             <h2>Edit Your Event</h2>
             <form id="form" onSubmit={this.updateEvent}>
               <h3>Date</h3>
-              <h4>{moment(this.state.datetime).format("dddd, MMMM Do, h:mm a")}</h4>
+              <h4>{moment.utc(this.state.datetime).format("dddd, MMMM Do, h:mm a")}</h4>
               <label htmlFor="datetime">Edit Date and Time:</label>
               <input className="form-control" type="datetime-local" id="datetime" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
               <hr/>

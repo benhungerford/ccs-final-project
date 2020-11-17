@@ -35,7 +35,7 @@ class App extends Component {
   async handleRegistration(event, obj) {
     event.preventDefault();
     const user = {username: obj.username, email: obj.email, password1: obj.password1, password2: obj.password2}
-    const profile = {first: obj.first, last: obj.last, email: obj.email, image: obj.image, address: obj.address, city: obj.city, state: obj.state, zipcode: obj.zipcode, phone: obj.phone}
+    const profile = {username: obj.username, first: obj.first, last: obj.last, email: obj.email, image: obj.image, address: obj.address, city: obj.city, state: obj.state, zipcode: obj.zipcode, phone: obj.phone}
     const options = {
       method: 'POST',
       headers: {
