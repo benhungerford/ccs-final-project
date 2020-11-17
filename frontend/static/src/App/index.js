@@ -16,19 +16,6 @@ import {
   withRouter
 } from "react-router-dom";
 
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const pino = require('express-pino-logger')();
-// const client = require('twilio')(
-//   process.env.TWILIO_ACCOUNT_SID,
-//   process.env.TWILIO_AUTH_TOKEN
-// );
-//
-// const app = express();
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(pino);
-
 
 class App extends Component {
   constructor(props) {
@@ -155,11 +142,17 @@ class App extends Component {
     }
   }
 
-  deleteEvent() {
-    fetch(`/api/v1/events/${this.props.eventID}/`, {
+  deleteEvent(event, id) {
+    event.preventDefault();
+    // const eventID = this.props.match.params.eventID;
+    fetch(`/api/v1/events/${id}/`, {
       method: 'DELETE',
+      headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+      },
     })
     .catch((error) => console.error('Error:', error));
+    this.props.history.push('/profile');
   }
 
 
@@ -173,7 +166,7 @@ class App extends Component {
                 <GuestForm />
               </Route>
               <Route path='/editevent/:eventID'>
-                <EditEvent />
+                <EditEvent deleteEvent={this.deleteEvent} />
               </Route>
               <Route path='/event'>
                 <Event />

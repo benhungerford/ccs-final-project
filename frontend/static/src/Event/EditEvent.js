@@ -7,7 +7,7 @@ import moment from 'moment';
 function Guest(props) {
   return(
     <div id="items-header" className="row mb-2 ml-2">
-      <button className="delete-button" type="button" onClick={() => props.deleteGuest()}><i className="fas fa-minus-circle"></i></button>
+      <button className="delete-button" type="button" onClick={() => props.deleteGuest(props.guest)}><i className="fas fa-minus-circle"></i></button>
       <p className="edit">{props.guest.name}: {props.guest.item}</p>
     </div>
   )
@@ -16,7 +16,7 @@ function Guest(props) {
 function FormItem(props) {
   return(
     <div className="row ml-2">
-      <button className="delete-button" type="button" onClick={() => props.deleteItem()}><i className="fas fa-minus-circle"></i></button>
+      <button className="delete-button" type="button" onClick={() => props.deleteItem(props.item)}><i className="fas fa-minus-circle"></i></button>
       <p className="edit">{Object.keys(props.item)}: {Object.values(props.item)}</p>
     </div>
   )
@@ -33,6 +33,7 @@ class EditEvent extends Component {
       guests: [],
       item: '',
       quantity: 0,
+      id: '',
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -51,10 +52,11 @@ class EditEvent extends Component {
       .catch(error => console.log('Error:', error));
   }
 
-  async deleteItem(event, obj) {
-    const items = [...this.state.guests];
-    items.splice(obj);
-    this.setState({items});
+  async deleteItem(obj) {
+    const items = [...this.state.items];
+    const index = items.indexOf(obj);
+    items.splice(index, 1);
+    this.setState({ items });
 
     const eventID = this.props.match.params.eventID;
     const options = {
@@ -63,16 +65,17 @@ class EditEvent extends Component {
         'Content-Type': 'application/json',
         'X-CSRFToken': Cookies.get('csrftoken'),
       },
-      body: JSON.stringify({items}),
+      body: JSON.stringify({ items }),
     };
     const handleError = (err) => console.warn(err);
     await fetch(`/api/v1/events/${eventID}/`, options).catch(handleError);
   }
 
-  async deleteGuest(event, obj) {
+  async deleteGuest(obj) {
     const guests = [...this.state.guests];
-    guests.splice(obj);
-    this.setState({guests});
+    const index = guests.indexOf(obj);
+    guests.splice(index, 1);
+    this.setState({ guests });
 
     const eventID = this.props.match.params.eventID;
     const options = {
@@ -105,7 +108,7 @@ class EditEvent extends Component {
     };
     const handleError = (err) => console.warn(err);
     await fetch(`/api/v1/events/${eventID}/`, options).catch(handleError);
-    this.setState({ show: false });
+    this.props.history.push('/profile');
   }
 
 
@@ -147,7 +150,6 @@ class EditEvent extends Component {
                 <div className="row justify-content-center">
                   <button className="col-sm-3 col-m-4 col-11 button" onClick={this.updateItems}><i className="fas fa-plus-circle"></i> Add</button>
                 </div>
-                <hr/>
                 <React.Fragment>
                   <div>
                     {items}
@@ -155,11 +157,13 @@ class EditEvent extends Component {
                 </React.Fragment>
                 <hr/>
                   <div>
+                    <h3>Guests</h3>
                     {guests}
                   </div>
                 <hr/>
                 <div className="row justify-content-center">
-                  <button type="submit" className="col-sm-4 col-12 button">Save</button>
+                  <button type="submit" onClick={(event) => this.props.deleteEvent(event, this.props.match.params.eventID)} className="col-sm-4 col-12 button"><i className="fas fa-minus-circle delete"></i> Delete Event</button>
+                  <button type="submit" className="col-sm-4 col-12 button"><i class="fas fa-save"></i> Save</button>
                 </div>
             </form>
           </div>

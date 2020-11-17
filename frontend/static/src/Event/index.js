@@ -41,7 +41,6 @@ class Event extends Component {
     this.handleInput = this.handleInput.bind(this);
     this.updateItems = this.updateItems.bind(this);
     this.submitForm = this.submitForm.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -63,6 +62,7 @@ class Event extends Component {
     delete form.item;
     delete form.quantity;
     delete form.show;
+    delete form.phone;
 
     const options = {
       method: 'POST',
@@ -74,7 +74,7 @@ class Event extends Component {
     };
     const handleError = (err) => console.warn(err);
     await fetch('/api/v1/events/', options).catch(handleError);
-    this.setState({ show: false });
+    this.props.history.push('/profile');
   }
 
 
@@ -89,10 +89,6 @@ class Event extends Component {
     }
     const items = [...this.state.items, item];
     this.setState({items, item: '', quantity: 0});
-  }
-
-  handleClose() {
-    this.setState({ show: false })
   }
 
   handleClick() {

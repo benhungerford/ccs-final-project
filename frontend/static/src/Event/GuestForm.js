@@ -36,7 +36,7 @@ class Input extends Component {
           <React.Fragment>
               <input id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
               <input id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
-              <button type="submit" className="col-2 guest-button">Add</button>
+              <button type="submit" className="col-2 guest-button"><i class="fas fa-check-circle"></i></button>
           </React.Fragment>
         </form>
         <hr/>
@@ -71,7 +71,7 @@ class GuestForm extends Component {
   }
 
   async addGuest(event, obj) {
-    event.preventDefault();
+    // event.preventDefault();
 
     const guests = [...this.state.guests];
     guests.push(obj);
@@ -146,7 +146,7 @@ class GuestForm extends Component {
         <div className="col-12 mb-2">
           <h3>&#128075; Hey there!</h3>
           <p className=""><b>{this.state.first}</b> has invited you to bring something to the table on <b>{moment(this.state.datetime).format("dddd, MMMM Do")} at {moment(this.state.datetime).format("h:mm a")}</b>!
-            If you're in, fill out your name and the item your bringing down below.
+            If you're in, fill out your name and the item you're bringing down below.
           </p>
         </div>
         <div className="col-12">

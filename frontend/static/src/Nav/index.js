@@ -21,8 +21,7 @@ function Nav(props) {
               </div>
             </React.Fragment>
           }
-
-
+          
     </nav>
   );
 }

@@ -83,7 +83,7 @@ footer {
 }
 
 .button {
-  background: linear-gradient(180deg, #32E0C4 0%, #0D7377 143.42%);
+  background: linear-gradient(180deg, #8DE5DB 0%, #117C6F 100%);
   mix-blend-mode: normal;
   border-radius: 5px;
   border: none;
@@ -201,7 +201,7 @@ h3 {
 }
 
 .guest-button {
-  background: linear-gradient(180deg, #32E0C4 0%, #0D7377 143.42%);
+  background: linear-gradient(180deg, #8DE5DB 0%, #117C6F 100%);
   mix-blend-mode: normal;
   border-radius: 5px;
   border: none;
@@ -235,4 +235,8 @@ h3 {
 .fa-minus-circle {
   color:#CB444A;
   width: 28px;
+}
+.delete.fa-minus-circle {
+  color: #212121;
+  /* width: 28px; */
 }
