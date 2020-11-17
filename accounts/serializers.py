@@ -15,10 +15,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    # username = serializers.ReadOnlyField(source='user.username')
+    username = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'first', 'last', 'image', 'address', 'city', 'state', 'zipcode', 'phone', 'email',)
+        fields = ('id', 'username', 'first', 'last', 'image', 'address', 'city', 'state', 'zipcode', 'phone', 'email',)
 
 
 class TokenSerializer(serializers.ModelSerializer):
