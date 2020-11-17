@@ -72,7 +72,6 @@ class GuestForm extends Component {
 
   async addGuest(event, obj) {
     // event.preventDefault();
-
     const guests = [...this.state.guests];
     guests.push(obj);
     this.setState({guests});
@@ -145,7 +144,7 @@ class GuestForm extends Component {
       <div id="form" className="row justify-content-center text-center col-11 col-sm-7">
         <div className="col-12 mb-2">
           <h3>&#128075; Hey there!</h3>
-          <p className=""><b>{this.state.first}</b> has invited you to bring something to the table on <b>{moment(this.state.datetime).format("dddd, MMMM Do")} at {moment(this.state.datetime).format("h:mm a")}</b>!
+          <p className=""><b>{this.state.first}</b> has invited you to bring something to the table on <b>{moment.utc(this.state.datetime).format("dddd, MMMM Do")} at {moment.utc(this.state.datetime).format("h:mm a")}</b>!
             If you're in, fill out your name and the item you're bringing down below.
           </p>
         </div>
