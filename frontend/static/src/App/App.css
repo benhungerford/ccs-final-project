@@ -219,6 +219,15 @@ h3 {
   color: #212121;
 }
 
+.guest {
+  margin-bottom: 0px;
+  font-size: 22px;
+}
+
+.guest-header {
+  margin-bottom: 18px;
+}
+
 /* Edit Event */
 
 .delete-button {

@@ -102,7 +102,6 @@ class App extends Component {
   }
 
   async handleLogin(event, obj) {
-    console.log('firing');
     event.preventDefault();
     const options = {
       method: 'POST',

@@ -5,8 +5,8 @@ import moment from 'moment';
 
 function Guest(props) {
   return(
-    <div id="items-header" className="row mb-2 ml-1">
-      <p className="edit">{props.guest.name}: {props.guest.item}</p>
+    <div  className="row justify-content-center">
+      <p className="guest"><b>{props.guest.name}</b> is bringing <b>{props.guest.item}</b></p>
     </div>
   )
 }
@@ -21,10 +21,15 @@ class Input extends Component {
     }
 
     this.handleInput = this.handleInput.bind(this);
+    this.clearState = this.clearState.bind(this);
   }
 
   handleInput(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  clearState() {
+    this.setState({ name: '', item: '', });
   }
 
   render() {
@@ -32,11 +37,12 @@ class Input extends Component {
       <React.Fragment>
         <form onSubmit={(event) => {
           this.props.addGuest(event, {name: this.state.name, item: this.state.item, category: this.props.category});
+          this.clearState();
         }} id="guest-input" className="row mb-2">
           <React.Fragment>
-              <input id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" value={this.state.name} onChange={this.handleInput} />
-              <input id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" value={this.state.item} onChange={this.handleInput} />
-              <button type="submit" className="col-2 guest-button"><i class="fas fa-check-circle"></i></button>
+              <input id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" maxLength="10" value={this.state.name} onChange={this.handleInput} />
+              <input id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" maxLength="12" value={this.state.item} onChange={this.handleInput} />
+              <button type="submit" className="col-2 guest-button"><i class="fas fa-plus-circle"></i></button>
           </React.Fragment>
         </form>
         <hr/>
@@ -71,7 +77,7 @@ class GuestForm extends Component {
   }
 
   async addGuest(event, obj) {
-    // event.preventDefault();
+    event.preventDefault();
     const guests = [...this.state.guests];
     guests.push(obj);
     this.setState({guests});
@@ -118,46 +124,47 @@ class GuestForm extends Component {
       keyHTML = `${key}: ${item[key]}`;
       if (item[key] === 0) {
         keyHTML = '';
+        inputHTML = '';
+      } else {
+        inputHTML = <Input key={index} addGuest={this.addGuest} category={key}/>
       }
-      const array = Array.from({length: item[key]});
-      inputHTML = array.map((item, index) => {
-        return(
-          <Input key={index} addGuest={this.addGuest} category={key}/>
-        )
-      });
+
     }
     return (
       <div key={index}>
         <div className="row justify-content-start ml-1">
           <h4 className="items-header">{keyHTML}</h4>
         </div>
-
         {inputHTML}
       </div>
     )
   });
 
-  const guests = this.state.guests?.map(guest => <Guest key={guest.index} guest={guest} />);
+  const guests = this.state.guests?.map(guest =>
+    <React.Fragment>
+      <Guest key={guest.index} guest={guest} />
+      <hr/>
+    </React.Fragment>
+  );
 
     return(
       <React.Fragment>
       <div id="form" className="row justify-content-center text-center col-11 col-sm-7">
         <div className="col-12 mb-2">
-          <h3>&#128075; Hey there!</h3>
+          <h3 className="guest-header">&#128075; Hey there!</h3>
           <p className=""><b>{this.state.first}</b> has invited you to bring something to the table on <b>{moment.utc(this.state.datetime).format("dddd, MMMM Do")} at {moment.utc(this.state.datetime).format("h:mm a")}</b>!
             If you're in, fill out your name and the item you're bringing down below.
           </p>
         </div>
         <div className="col-12">
-          <div className="">
+          <h3 className="guest-header">Items Needed</h3>
+          <div>
             {html}
           </div>
-          <div className="">
-            <h3>Guests</h3>
-            <p>See what each guest is bringing</p>
+          <div>
+            <h3 className="guest-header">Guests</h3>
             {guests}
           </div>
-          <hr/>
         </div>
       </div>
       </React.Fragment>
