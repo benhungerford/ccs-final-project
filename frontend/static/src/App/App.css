@@ -37,6 +37,14 @@ li {
   box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.28);
 }
 
+.shorter-file-name {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 footer {
   height: 70px;
   margin-top: 5px;

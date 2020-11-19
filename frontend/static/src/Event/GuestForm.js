@@ -40,8 +40,8 @@ class Input extends Component {
           this.clearState();
         }} id="guest-input" className="row mb-2">
           <React.Fragment>
-              <input id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" maxLength="10" value={this.state.name} onChange={this.handleInput} />
-              <input id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" maxLength="12" value={this.state.item} onChange={this.handleInput} />
+              <input required id="name" className="form-control mb-2 col-12" type="text" name="name" placeholder="Name" maxLength="10" value={this.state.name} onChange={this.handleInput} />
+              <input required id="item" className="form-control mb-2 col-9" type="text" name="item" placeholder="Item" maxLength="12" value={this.state.item} onChange={this.handleInput} />
               <button type="submit" className="col-2 guest-button"><i class="fas fa-plus-circle"></i></button>
           </React.Fragment>
         </form>
@@ -120,7 +120,6 @@ class GuestForm extends Component {
   const html = this.state.items?.map((item, index) => {
     let keyHTML, inputHTML;
     for(const key in item) {
-      // item key is number of input that should be created for that key value, e.g. 4 sides
       keyHTML = `${key}: ${item[key]}`;
       if (item[key] === 0) {
         keyHTML = '';

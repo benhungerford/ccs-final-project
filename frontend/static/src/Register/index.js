@@ -42,41 +42,41 @@ class Register extends Component {
           <form id="form" onSubmit={(event) => this.props.handleRegistration(event, this.state)}>
             <div className="form-group">
               <label htmlFor="InputName1">Username</label>
-              <input type="username" className="form-control" id="InputName1" name="username" value={this.state.username} onChange={this.handleInput} />
+              <input required type="username" className="form-control" id="InputName1" name="username" value={this.state.username} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="InputEmail1">Email address</label>
-              <input type="email" className="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email" value={this.state.email} onChange={this.handleInput} />
+              <input required type="email" className="form-control" id="InputEmail1" aria-describedby="emailHelp" name="email" value={this.state.email} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="InputPassword1">Create password</label>
-              <input type="password" className="form-control" id="InputPassword1" name="password1" value={this.state.password1} onChange={this.handleInput} />
+              <input required type="password" className="form-control" id="InputPassword1" name="password1" value={this.state.password1} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="InputPassword2">Re-type password</label>
-              <input type="password" className="form-control" id="InputPassword2" name="password2" value={this.state.password2} onChange={this.handleInput} />
+              <input required type="password" className="form-control" id="InputPassword2" name="password2" value={this.state.password2} onChange={this.handleInput} />
             </div>
             <hr/>
             <div className="form-group">
               <label htmlFor="firstname">First Name</label>
-              <input type="text" className="form-control" id="firstname" name="first" value={this.state.first} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="firstname" name="first" maxLength="25" value={this.state.first} onChange={this.handleInput} />
               <label htmlFor="lastname">Last Name</label>
-              <input type="text" className="form-control" id="lastname" name="last" value={this.state.last} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="lastname" name="last" maxLength="25" value={this.state.last} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="img">Upload Profile Picture</label>
-              <input type="file" id="img" className="form-control-file" name="image" accept="image/*" onChange={this.handleImage}/>
+              <input required type="file" id="img" className="form-control-file shorter-file-name" name="image" accept="image/*" onChange={this.handleImage}/>
             </div>
             <div className="form-group">
               <label htmlFor="address">Address</label>
-              <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="address" name="address" maxLength="100" value={this.state.address} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="city">City</label>
-              <input type="text" className="form-control" id="city" name="city" value={this.state.city} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="city" name="city" maxLength="100" value={this.state.city} onChange={this.handleInput} />
             </div>
             <div className="form-group">
-              <label htmlFor="inputState">State</label>
+              <label required htmlFor="inputState">State</label>
               <select id="inputState" className="form-control" name="state" onChange={this.handleInput}>
                 <option value="DEF">Select One...</option>
                 <option value="DC">District of Columbia</option>
@@ -134,11 +134,11 @@ class Register extends Component {
             </div>
             <div className="form-group">
               <label htmlFor="zipcode">Zipcode</label>
-              <input type="text" className="form-control" id="zipcode" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="zipcode" name="zipcode" maxLength="12" value={this.state.zipcode} onChange={this.handleInput} />
             </div>
             <div className="form-group">
               <label htmlFor="phone">Phone Number</label>
-              <input type="text" className="form-control" id="phone" name="phone" value={this.state.phone} onChange={this.handleInput} />
+              <input required type="text" className="form-control" id="phone" name="phone" maxLength="15" value={this.state.phone} onChange={this.handleInput} />
             </div>
             <button type="submit" className="col-sm-4 col-12 button">Register</button>
           </form>

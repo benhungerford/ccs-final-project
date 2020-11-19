@@ -34,7 +34,7 @@ class Event extends Component {
       details: '',
 
       item: '',
-      quantity: 0,
+      quantity: null,
       show: false,
     }
 
@@ -105,10 +105,10 @@ class Event extends Component {
           <p className="ml-3">Here's where you can fill out what you need your friends to bring bring to the table! Simply choose a time and date then add categories of what you need.</p>
             <form id="form" onSubmit={this.submitForm}>
               <h3>Date</h3>
-              <input className="form-control" type="datetime-local" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
+              <input required className="form-control" type="datetime-local" placeholder="Select date" name="datetime" value={this.state.datetime} onChange={this.handleInput}/>
               <hr/>
               <h3>Items Needed</h3>
-                <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+                <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." maxLength="25" value={this.state.item} onChange={this.handleInput} />
                 <input className="form-control mb-1" type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
                 <div className="row justify-content-center">
                   <button className="col-sm-3 col-m-4 col-11 button" onClick={this.updateItems}><i className="fas fa-plus-circle"></i> Add</button>

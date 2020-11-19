@@ -144,7 +144,7 @@ class EditEvent extends Component {
               <hr/>
               <h3>Items Needed</h3>
                 <div>
-                  <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." value={this.state.item} onChange={this.handleInput} />
+                  <input className="form-control mb-1" type="text" name="item" placeholder="Sides, Desserts, Napkins, etc." maxLength="25" value={this.state.item} onChange={this.handleInput} />
                   <input className="form-control mb-1" type="number" id="quantity" name="quantity" placeholder="#" value={this.state.quantity} onChange={this.handleInput} />
                 </div>
                 <div className="row justify-content-center">
