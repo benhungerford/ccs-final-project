@@ -1,7 +1,7 @@
 # Table
 Table is an app that gives a party host the ability to quickly create a list of items needed for their guests to bring over for an event. Once the list is created, the host sends out a link to their guests to sign up to bring something to the table.
 # Why
-This past summer, we experienced the problem of not having enough food when inviting friends over for lunch. Later, my wife voiced that if everyone had been able to bring some food then we would have had enough. I wanted to create an app for someone like my wife to organize a simple way for our guests to bring something.
+This past summer, we experienced the problem of not having enough food when inviting friends over for lunch. Afterwards, my wife voiced to me that if everyone had been able to bring some food then we would have had enough. I wanted to create an app for someone like my wife to organize a simple way for our guests to bring something.
 # Features
 - Host can create event with categories of items needed.
 - Host can copy link of event and send to guests.
